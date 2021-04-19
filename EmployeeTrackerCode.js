@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 const inquirer = require('inquirer');
+const { resourceLimits } = require('node:worker_threads');
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -90,6 +91,64 @@ const init = () => {
             }
         });
 }
+
+const addEmployee = () => {
+    inquirer
+        .prompt([
+        {
+            name: 'first-name-add',
+            type: 'input',
+            messsge: 'Please enter first name of new employee.',
+        },
+        {
+            name: 'last-name-add',
+            type: 'input',
+            message: 'Please enter last name of new employee.',
+        },
+        {
+            name: 'role-add',
+            type: 'rawList',
+            choices() {
+                const roleChoiceArray = [];
+                results.forEach(({ role }) => {
+                    roleChoiceArray.push(role);
+                });
+                return roleChoiceArray;
+            },
+            message: 'Please choose the role for the new employee.',
+        },
+        {
+            name: 'manager-add',
+            type: 'rawList',
+            choices() {
+                const managerChoiceArray = [];
+                results.forEach(({ manager }) => {
+                    managerChoiceArray.push(manager);
+                });
+                return managerChoiceArray;
+            },
+            message: 'Please choose the manager for the new employee.',
+        },
+    ])
+    .then((answer) => {
+        connection.query(
+            'INSERT INTO employee SET ?',
+            {
+                first_name: answer.first-name-add,
+                last_name: answer.last-name-add,
+                role_id: answer.role-add,
+                manager_id: answer.manager-add
+            },
+            (err) => {
+                if (err) throw err;
+                console.log('Employee added successfuly.')
+                init();
+            }
+        )
+
+    }
+}
+
 
 
 // create roles
