@@ -92,6 +92,7 @@ const init = () => {
         });
 }
 
+// add employee
 const addEmployee = () => {
     inquirer
         .prompt([
@@ -131,14 +132,10 @@ const addEmployee = () => {
         },
     ])
     .then((answer) => {
-        connection.query(
-            'INSERT INTO employee SET ?',
-            {
-                first_name: answer.first-name-add,
-                last_name: answer.last-name-add,
-                role_id: answer.role-add,
-                manager_id: answer.manager-add
-            },
+        let query = 
+            'SELECT employee.first-name-add, employee.last-name-add, employee.role_id, employee.manager_id, role.title, role.id';
+        query +=
+            'FROM employee INNER JOIN role ON role.id = employee.role_id';
             (err) => {
                 if (err) throw err;
                 console.log('Employee added successfuly.')
@@ -150,20 +147,46 @@ const addEmployee = () => {
 }
 
 
+// add roles
 
-// create roles
+// add departments
+const addDepartment = () => {
+    inquirer
+        .prompt(
+        {
+            name: 'new-department',
+            type: 'input',
+            message: 'Please enter the new department name.'
+        },
+        )
+        .then((answer) => {
+            connection.query(
+                'INSERT INTO department SET ?',
+                {
+                    name: answer.new-department,
+                },
+                (err) => {
+                    if (err) throw err;
+                    console.log('The department has been added.');
+                    init();
+                }
+            );
+        });
+};
 
+// view employees
+const viewEmployees = () => {
+    connection.query('SELECT * FROM employee'), (err, results) => {
+        if (err) throw err;
 
-// create employees
+    }
+}
 
 
 // view departments
 
 
 // view roles
-
-
-// view employees
 
 
 // update employee roles
