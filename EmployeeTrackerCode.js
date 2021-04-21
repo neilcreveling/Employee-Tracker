@@ -141,13 +141,51 @@ const addEmployee = () => {
                 console.log('Employee added successfuly.')
                 init();
             }
-        )
+    })
 
-    }
+    
 }
 
 
 // add roles
+const addRole = () => {
+    inquirer
+        .prompt([
+            {
+                name: 'role-name',
+                type: 'input',
+                message: 'Please enter new role name.',
+            },
+            {
+                name: 'role-salary',
+                type: 'input',
+                message: 'Please enter new role salary.',
+            },
+            {
+                name: 'dept',
+                type: 'rawList',
+                choices() {
+                    const deptArray = [];
+                    results.forEach(({ name }) => {
+                        deptArray.push(name);
+                    });
+                    return deptArray;
+                },
+                message: 'Please choose department for new role.'
+            },
+        ])
+        .then((answer) => {
+            connection.query(
+                'INSERT INTO role SET ?',
+                {
+                    title: answer.role-name,
+                    salary: answer.role-salary,
+                    dept_id: 'SELECT role.id FROM role INNER JOIN department ON role.dept_id'
+                }
+            )
+
+        })
+}
 
 // add departments
 const addDepartment = () => {
@@ -178,15 +216,62 @@ const addDepartment = () => {
 const viewEmployees = () => {
     connection.query('SELECT * FROM employee'), (err, results) => {
         if (err) throw err;
-
-    }
-}
+    };
+};
 
 
 // view departments
+const viewDepartments = () => {
+    connection.query('SELECT * FROM department'), (err, results) => {
+        if (err) throw err;
+    };
+};
 
 
 // view roles
+const viewRoles = () => {
+    connection.query('SELECT * FROM role'), (err, results) => {
+        if (err) throw err;
+    };
+};
 
 
 // update employee roles
+const updateEmployeeRole = () => {
+    inquirer
+        .prompt([
+        {
+            name: 'update-employee',
+            type: 'rawList',
+            choices() {
+                const updateEmployeeArray = [];
+                results.forEach(({ first_name, last_name }) => {
+                    updateEmployeeArray.push(first_name, last_name)
+                });
+            return updateEmployeeArray;
+            },
+            message: 'Which employee would you like to update?',
+        },
+        {
+            name: 'update-role',
+            type: 'rawList',
+            choices() {
+                const updateRoleArray = [];
+                results.forEach(({ title }) => {
+                    updateRoleArray.push(title)
+                });
+            return updateRoleArray;
+            },
+            message: 'Please assign the employee a new role.'
+        }
+        ])
+        .then((answer) => {
+            
+        })
+    };
+    console.log('Updating employee role');
+    const query = connection.query(
+        'UPDATE employee SET ? WHERE ?',
+
+    )
+}
