@@ -1,21 +1,21 @@
 module.exports = [
     {
-        name: 'first-name-add',
+        name: 'firstAdd',
         type: 'input',
         messsge: 'Please enter first name of new employee.',
     },
     {
-        name: 'last-name-add',
+        name: 'lastAdd',
         type: 'input',
         message: 'Please enter last name of new employee.',
     },
     {
-        name: 'role-add',
+        name: 'roleAdd',
         type: 'input',
         message: 'Please enter role id.',
     },
     {
-        name: 'manager-add',
+        name: 'managerAdd',
         type: 'input',
         message: 'Please enter manager id, if applicable.',
     },

@@ -1,7 +1,7 @@
 module.exports = [
     {
         name: 'action',
-        type: 'rawList',
+        type: 'list',
         message: 'What would you like to do?',
         choices: [
             'Add Employee',

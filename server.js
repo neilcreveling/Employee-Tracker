@@ -18,16 +18,10 @@ const connection = mysql.createConnection({
     database: 'employeetracker_db',
 });
 
-connect.connect((err) => {
-    if (err) throw err;
-    init()
-});
-
-
 // initial prompt
 const init = () => {
-    inquirer.prompt(mainMenuQues).then((answer) => {
-            switch (answer.action) {
+    inquirer.prompt(mainMenuQues).then((data) => {
+            switch (data.action) {
                 case 'Add Employee':
                    addEmployee();
                     break;
@@ -77,11 +71,11 @@ const init = () => {
 // add employee
 const addEmployee = () => {
     console.log('Creating employee...');
-    inquirer.prompt(addEmployeeQues).then((answer) => {
-        employeeFirstName = answer.first-name-add;
-        employeeLastName = answer.last-name-add;
-        employeeRole = parseInt(answer.role-add);
-        employeeManager = parseInt(answer.manager-add);
+    inquirer.prompt(addEmployeeQues).then((data) => {
+        employeeFirstName = data.firstAdd;
+        employeeLastName = data.lastAdd;
+        employeeRole = parseInt(data.roleAdd);
+        employeeManager = parseInt(data.managerAdd);
         connection.query(
             'INSERT INTO employee SET ?',
             {
@@ -104,10 +98,10 @@ const addEmployee = () => {
 // add roles
 const addRole = () => {
     console.log('Creating role...');
-    inquirer.prompt(addRoleQues).then((answer) => {
-        roleTitle = answer.role-name;
-        roleSalary = parseInt(answer.role-salary);
-        roleDept = parseInt(answer.dept-id)
+    inquirer.prompt(addRoleQues).then((data) => {
+        roleTitle = data.roleName;
+        roleSalary = parseInt(data.roleSalary);
+        roleDept = parseInt(data.deptId)
         connection.query(
             'INSERT INTO role SET ?',
             {
@@ -128,11 +122,11 @@ const addRole = () => {
 // add departments
 const addDepartment = () => {
     console.log('Creating department...');
-    inquirer.prompt(addDeptQues).then((answer) => {
+    inquirer.prompt(addDeptQues).then((data) => {
         connection.query(
             'INSERT INTO department SET ?',
             {
-                name: answer.new-department,
+                name: data.newDepartment,
             },
             (err) => {
                 if (err) throw err;
@@ -183,18 +177,18 @@ const viewRoles = () => {
 
 // update employee roles
 const updateEmployeeRole = () => {
-    inquirer.prompt(updateEmployeeQues).then((answer) => {
-        const employeeId = parseInt(answer.employee-id);
-        const employeeRoleId = parseInt(answer.role-id);
+    inquirer.prompt(updateEmployeeQues).then((data) => {
+        const employeeId = parseInt(data.employeeId);
+        const employeeRoleId = parseInt(data.roleId);
         console.log('Checking system...');
         connection.query(
             'UPDATE employee SET ? WHERE ?',
             [
                 {
-                    role_id = employeeRoleId,
+                    role_id: employeeRoleId,
                 },
                 {
-                    id = employeeId,
+                    id: employeeId,
                 }
             ],
             (err, res) => {
@@ -206,3 +200,5 @@ const updateEmployeeRole = () => {
         init();
     });
 };
+
+init();

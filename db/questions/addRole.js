@@ -1,16 +1,16 @@
 module.exports = [
     {
-        name: 'role-name',
+        name: 'roleName',
         type: 'input',
         message: 'Please enter new role name.',
     },
     {
-        name: 'role-salary',
+        name: 'roleSalary',
         type: 'input',
         message: 'Please enter new role salary.',
     },
     {
-        name: 'dept-id',
+        name: 'deptId',
         type: 'input',
         message: 'Please enter department id for new role.',
     },
