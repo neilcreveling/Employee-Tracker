@@ -180,14 +180,26 @@ const viewRoles = () => {
 
 // update employee roles
 const updateEmployeeRole = () => {
-    inquirer
-        .prompt(updateEmployeeQues).then((answer) => {
-            
-        })
-    };
-    console.log('Updating employee role');
-    const query = connection.query(
-        'UPDATE employee SET ? WHERE ?',
-
-    )
-}
+    inquirer.prompt(updateEmployeeQues).then((answer) => {
+        const employeeId = parseInt(answer.employee-id);
+        const employeeRoleId = parseInt(answer.role-id);
+        console.log('Checking system...');
+        connection.query(
+            'UPDATE employee SET ? WHERE ?',
+            [
+                {
+                    role_id = employeeRoleId,
+                },
+                {
+                    id = employeeId,
+                }
+            ],
+            (err, res) => {
+                if (err) throw err;
+                console.log('Employee role has been updated.')
+                console.table(res);
+            }
+        );
+        init();
+    });
+};
