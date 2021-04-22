@@ -10,7 +10,7 @@ module.exports = [
         message: 'Please enter new role salary.',
     },
     {
-        name: 'dept',
+        name: 'dept-id',
         type: 'input',
         message: 'Please enter department id for new role.',
     },

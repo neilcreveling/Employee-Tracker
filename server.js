@@ -73,52 +73,72 @@ const init = () => {
 
 // add employee
 const addEmployee = () => {
+    console.log('Creating employee...');
     inquirer.prompt(addEmployeeQues).then((answer) => {
-        let query = 
-            'SELECT employee.first-name-add, employee.last-name-add, employee.role_id, employee.manager_id, role.title, role.id';
-        query +=
-            'FROM employee INNER JOIN role ON role.id = employee.role_id';
+        employeeFirstName = answer.first-name-add;
+        employeeLastName = answer.last-name-add;
+        employeeRole = parseInt(answer.role-add);
+        employeeManager = parseInt(answer.manager-add);
+        connection.query(
+            'INSERT INTO employee SET ?',
+            {
+                first_name: employeeFirstName,
+                last_name: employeeLastName,
+                role_id: employeeRole,
+                manager_id: employeeManager,
+            },
             (err) => {
                 if (err) throw err;
                 console.log('Employee added successfuly.')
+                console.table(res);
                 init();
             }
-    })
-
-    
-}
+        );
+        init();
+    });
+};
 
 // add roles
 const addRole = () => {
+    console.log('Creating role...');
     inquirer.prompt(addRoleQues).then((answer) => {
-            connection.query(
-                'INSERT INTO role SET ?',
-                {
-                    title: answer.role-name,
-                    salary: answer.role-salary,
-                    dept_id: 'SELECT role.id FROM role INNER JOIN department ON role.dept_id'
-                }
-            )
-
-        })
-}
+        roleTitle = answer.role-name;
+        roleSalary = parseInt(answer.role-salary);
+        roleDept = parseInt(answer.dept-id)
+        connection.query(
+            'INSERT INTO role SET ?',
+            {
+                title: roleTitle,
+                salary: roleSalary,
+                dept_id: roleDept
+            },
+            (err) => {
+                if (err) throw err;
+                console.log('Role added successfully.');
+                console.table(res);
+            }
+        );
+        init();
+    });
+};
 
 // add departments
 const addDepartment = () => {
-    inquirer
-        .prompt(addDeptQues).then((answer) => {
-            connection.query(
-                'INSERT INTO department SET ?',
-                {
-                    name: answer.new-department,
-                },
-                (err) => {
-                    if (err) throw err;
-                    console.log('The department has been added.');
-                    init();
-                }
-            );
-        });
+    console.log('Creating department...');
+    inquirer.prompt(addDeptQues).then((answer) => {
+        connection.query(
+            'INSERT INTO department SET ?',
+            {
+                name: answer.new-department,
+            },
+            (err) => {
+                if (err) throw err;
+                console.log('The department has been added.');
+                console.table(res)
+            }
+        );
+        init();
+    });
 };
 
 // view employees
