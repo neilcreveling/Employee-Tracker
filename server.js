@@ -7,11 +7,14 @@ const addRoleQues = require('./db/questions/addRole');
 const addDeptQues = require('./db/questions/addDept');
 const updateEmployeeQues = require('./db/questions/updateEmployee');
 
+// password
+const pass = require('./config')
+
 const connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: '',
+    password: pass,
     database: 'employeetracker_db',
 });
 
