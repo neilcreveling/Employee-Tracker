@@ -1,6 +1,9 @@
+// dependencies
 const mysql = require('mysql');
 const inquirer = require('inquirer');
 
+
+// question links
 const mainMenuQues = require('./db/questions/mainMenu');
 const addEmployeeQues = require('./db/questions/addEmployee');
 const addRoleQues = require('./db/questions/addRole');
@@ -13,6 +16,7 @@ const deleteRoleQues = require('./db/questions/deleteRole');
 // password
 const pass = require('./config')
 
+// connection
 const connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
@@ -108,7 +112,7 @@ const addRole = () => {
             {
                 title: roleTitle,
                 salary: roleSalary,
-                dept_id: roleDept
+                department_id: roleDept
             },
             (err, res) => {
                 if (err) throw err;
@@ -214,7 +218,7 @@ const deleteEmployee = () => {
                 console.log('Employee deleted successfully.');
             }
         );
-        init;
+        init();
     });
 };
 
@@ -233,7 +237,7 @@ const deleteDepartment = () => {
                 console.log('Department deleted successfully.');
             }
         );
-        init;
+        init();
     });
 };
 
@@ -252,7 +256,7 @@ const deleteRole = () => {
                 console.log('Role deleted successfully.');
             }
         );
-        init;
+        init();
     });
 };
 
