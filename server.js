@@ -7,7 +7,8 @@ const addRoleQues = require('./db/questions/addRole');
 const addDeptQues = require('./db/questions/addDept');
 const updateEmployeeQues = require('./db/questions/updateEmployee');
 const deleteEmployeeQues = require('./db/questions/deleteEmployee');
-const deleteDeptQues = require('./db/questions/deleteDept')
+const deleteDeptQues = require('./db/questions/deleteDept');
+const deleteRoleQues = require('./db/questions/deleteRole');
 
 // password
 const pass = require('./config')
@@ -230,6 +231,25 @@ const deleteDepartment = () => {
             (err, res) => {
                 if (err) throw err;
                 console.log('Department deleted successfully.');
+            }
+        );
+        init;
+    });
+};
+
+// delete role
+const deleteRole = () => {
+    inquirer.prompt(deleteRoleQues).then((data) => {
+        const roleDeleteId = parseInt(data.roleDeleteId);
+        console.log('Deleting department...')
+        connection.query(
+            'DELETE FROM role WHERE ?',
+            {
+                id: roleDeleteId,
+            },
+            (err, res) => {
+                if (err) throw err;
+                console.log('Role deleted successfully.');
             }
         );
         init;
