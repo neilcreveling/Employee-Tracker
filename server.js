@@ -88,8 +88,6 @@ const addEmployee = () => {
             (err) => {
                 if (err) throw err;
                 console.log('Employee added successfuly.')
-                console.table(res);
-                init();
             }
         );
         init();
@@ -110,10 +108,9 @@ const addRole = () => {
                 salary: roleSalary,
                 dept_id: roleDept
             },
-            (err,res) => {
+            (err, res) => {
                 if (err) throw err;
                 console.log('Role added successfully.');
-                console.table(res);
             }
         );
         init();
@@ -132,7 +129,6 @@ const addDepartment = () => {
             (err, res) => {
                 if (err) throw err;
                 console.log('The department has been added.');
-                console.table(res)
             }
         );
         init();
@@ -195,7 +191,6 @@ const updateEmployeeRole = () => {
             (err, res) => {
                 if (err) throw err;
                 console.log('Employee role has been updated.');
-                console.table(res);
             }
         );
         init();
@@ -204,16 +199,16 @@ const updateEmployeeRole = () => {
 
 const deleteEmployee = () => {
     inquirer.prompt(deleteEmployeeQues).then((data) => {
+        const employeeDeleteId = parseInt(data.employeeDeleteId);
         console.log('Deleting employee...')
         connection.query(
-            'DELETE employee WHERE ?',
+            'DELETE FROM employee WHERE ?',
             {
-                id: data.employeeDelete,
+                id: employeeDeleteId,
             },
             (err, res) => {
                 if (err) throw err;
                 console.log('Employee deleted successfully.');
-                console.table(res);
             }
         );
         init;
