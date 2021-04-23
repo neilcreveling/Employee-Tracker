@@ -6,7 +6,8 @@ const addEmployeeQues = require('./db/questions/addEmployee');
 const addRoleQues = require('./db/questions/addRole');
 const addDeptQues = require('./db/questions/addDept');
 const updateEmployeeQues = require('./db/questions/updateEmployee');
-const deleteEmployeeQues = require('./db/questions/deleteEmployee')
+const deleteEmployeeQues = require('./db/questions/deleteEmployee');
+const deleteDeptQues = require('./db/questions/deleteDept')
 
 // password
 const pass = require('./config')
@@ -197,6 +198,7 @@ const updateEmployeeRole = () => {
     });
 };
 
+// delete employee
 const deleteEmployee = () => {
     inquirer.prompt(deleteEmployeeQues).then((data) => {
         const employeeDeleteId = parseInt(data.employeeDeleteId);
@@ -209,6 +211,25 @@ const deleteEmployee = () => {
             (err, res) => {
                 if (err) throw err;
                 console.log('Employee deleted successfully.');
+            }
+        );
+        init;
+    });
+};
+
+// delete dept
+const deleteDepartment = () => {
+    inquirer.prompt(deleteDeptQues).then((data) => {
+        const deptDeleteId = parseInt(data.deptDeleteId);
+        console.log('Deleting department...')
+        connection.query(
+            'DELETE FROM department WHERE ?',
+            {
+                id: deptDeleteId,
+            },
+            (err, res) => {
+                if (err) throw err;
+                console.log('Department deleted successfully.');
             }
         );
         init;
