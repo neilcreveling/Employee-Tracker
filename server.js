@@ -154,7 +154,7 @@ const viewEmployees = () => {
 // view departments
 const viewDepartments = () => {
     connection.query(
-        'SELECT * FROM department'),
+        'SELECT department.id, name FROM department'),
         (err, res) => {
             if (err) throw err;
             console.table(res);
@@ -166,7 +166,7 @@ const viewDepartments = () => {
 // view roles
 const viewRoles = () => {
     connection.query(
-        'SELECT * FROM role LEFT JOIN department on role.department_id = department.id'),
+        'SELECT role.id, title, salary, department_id FROM role LEFT JOIN department on role.department_id = department.id'),
         (err, res) => {
             if (err) throw err;
             console.table(res);
