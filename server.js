@@ -6,6 +6,7 @@ const addEmployeeQues = require('./db/questions/addEmployee');
 const addRoleQues = require('./db/questions/addRole');
 const addDeptQues = require('./db/questions/addDept');
 const updateEmployeeQues = require('./db/questions/updateEmployee');
+const deleteEmployeeQues = require('./db/questions/deleteEmployee')
 
 // password
 const pass = require('./config')
@@ -109,7 +110,7 @@ const addRole = () => {
                 salary: roleSalary,
                 dept_id: roleDept
             },
-            (err) => {
+            (err,res) => {
                 if (err) throw err;
                 console.log('Role added successfully.');
                 console.table(res);
@@ -128,7 +129,7 @@ const addDepartment = () => {
             {
                 name: data.newDepartment,
             },
-            (err) => {
+            (err, res) => {
                 if (err) throw err;
                 console.log('The department has been added.');
                 console.table(res)
@@ -154,11 +155,11 @@ const viewEmployees = () => {
 // view departments
 const viewDepartments = () => {
     connection.query(
-        'SELECT department.id, name FROM department'),
+        'SELECT * FROM department',
         (err, res) => {
             if (err) throw err;
             console.table(res);
-    };
+    });
     init();
 };
 
@@ -166,11 +167,11 @@ const viewDepartments = () => {
 // view roles
 const viewRoles = () => {
     connection.query(
-        'SELECT role.id, title, salary, department_id FROM role LEFT JOIN department on role.department_id = department.id'),
+        'SELECT * FROM role LEFT JOIN department on role.department_id = department.id',
         (err, res) => {
             if (err) throw err;
             console.table(res);
-    };
+    });
     init();
 };
 
@@ -193,11 +194,29 @@ const updateEmployeeRole = () => {
             ],
             (err, res) => {
                 if (err) throw err;
-                console.log('Employee role has been updated.')
+                console.log('Employee role has been updated.');
                 console.table(res);
             }
         );
         init();
+    });
+};
+
+const deleteEmployee = () => {
+    inquirer.prompt(deleteEmployeeQues).then((data) => {
+        console.log('Deleting employee...')
+        connection.query(
+            'DELETE employee WHERE ?',
+            {
+                id: data.employeeDelete,
+            },
+            (err, res) => {
+                if (err) throw err;
+                console.log('Employee deleted successfully.');
+                console.table(res);
+            }
+        );
+        init;
     });
 };
 
